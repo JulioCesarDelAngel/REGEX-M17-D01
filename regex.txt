@@ -1,0 +1,96 @@
+# Tutorial de Expresiones regulares.
+
+### Introducción:
+##### Una "regex" podría definirse como:
+- Secuencia de caracteres que conforman un patrón de búsqueda ([wikipedia](https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular "Wikipedia")).
+- "Lenguaje" utilizado para analizar y manipular texto.
+##### Algunas de las aplicaciones:
+- validar que los datos de entradas de texto estén bien formados o cumplan con ciertos patrones.
+- Se utilizan con frecuencia para realizar operaciones complejas de búsqueda y reemplazo.
+
+## Resumen
+
+En la actualidad las expresiones regulares se incluyen en la mayoría de los lenguajes de programación, lenguajes de secuencia de comandos, editores, aplicaciones, bases de datos y herramientas de líneas de comandos.
+
+El propósito de este tutorial es describir el funcionamiento de una expresión regular (regex) para validar un patrón de correo electrónico por ejemplo: `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`
+
+## Índice
+
+- [Anclajes](#Term1)
+- [Cuantificadores](#Term2)
+- [Constructos de agrupación](#Term3)
+- [Expresiones entre corchetes](#Term4)
+- [Clases de caracteres](#Term5)
+- [Escapes con caracteres](#Term8)
+
+## Componentes de la expresión regular
+
+<a name="Term1"></a>
+### Anclajes
+El caracter `^` es considerado un anclaje e indica el inicio de la cadena a validar segun el patron que le precede.
+El Caracter `$` tambien es considerado un anclaje, solo para el final de la cadena de caracteres e indica al patron que validara las reglas del ultimo bloque.
+
+En nuestro ejemplo: `^([a-z0-9_\.-]+)` y `([a-z\.]{2,6})$` , para inicio y termino respectivamente.
+
+<a name="Term2"></a>
+### Cuantificadores
+Los cuantificadores nos ayudan a indicar al patron de busqueda que numero de veces queremos que se cumpla la validacion.
+- `*`     Coincide cero o mas veces.
+- `+`     Coincide una o mas veces.
+- `?`     Concide cero o una vez.
+- `{m,n}` Concide un minimo de `m` y un maximo de `n`.
+
+En nuestro ejemplo: 
+* /^([a-z0-9_\.-]`+`) Coincidira una o mas veces
+* ([\da-z\.-]`+`) 	  Coincidira una o mas veces.
+* ([a-z\.]`{2,6}`)$/ 	Coincidira de 2 a 6 veces.
+
+<a name="Term3"></a>
+### Constructos de agrupación
+Son las agrupaciones en parentesis `()` que dividen "envuelven" o agrupan las partes de una cadena del patron a validar.
+Este tipo de subexpresiones buscan una coincidencia exacta si no se les indica lo contrario, y los caracteres especiales conservan su significado dentro de los parentesis.
+
+En nuestro ejemplo contamos con 3 subexpresiones:
+/^`([a-z0-9_\.-]+)`@`([\da-z\.-]+)`\.`([a-z\.]{2,6})`$/
+
+<a name="Term4"></a>
+### Expresiones entre corchetes
+Las expresiones entre corchetes `[]` indican los caracteres o rango de caracteres que deben coincidir en nuestro patron, se pueden combinar multiples caracteres. Ó rangos de caracteres con el comodin `-`.
+
+En nuestro ejemplo, centrandonos en los rangos de la primera subexpresion: /^([`a-z0-9`_\.-]+)
+indica un rango de letras minusculas de la a-z, cualquier numero del 0-9, un guion `-`, un guion bajo `_` y/o un punto `.` 
+
+Para hacer una negacion ó convertir un grupo de caracteres en negativos se utiliza el comodin ^ al inicio de la expresion dentro de los corchetes. por ejemplo la siguiente expresion `[^0-9]` indicaria que la empresion no debera contener numeros del 0-9
+
+<a name="Term5"></a>
+### Clases de caracteres
+Una clase caracteres es la definicion de un conjunto de caracteres, que se deberan cumplir de acuerdo al patron definido. (las expresiones entre corchetes son consideradas clases de caracteres).
+Algunas de las clases de caracteres mas comunes son :
+- `\d` Coincide cualquier digito de 0 al 9. 
+- `\w` Representa cualquier caracter alfanumerico incluido el guion bajo (`_`).
+- `\s` Representa un espacio en blanco.
+- `.` Coincide con cualquier caracter con la exepcion de el caracter nueva linea (`\n`)
+
+Para realizar una coincidencia inverza de `\d\w\s` se puede cambiar el comodin a mayuscula `\D\W\S`.
+
+En nuestro ejemplo utilizamos `\d` /^([a-z0-9_\.-]+)@([`\d`a-z\.-]+)\.([a-z\.]{2,6})$/
+
+<a name="Term8"></a>
+### Escapes con caracteres
+La barra invertida (`\`) se utiliza para "escapar" caracteres de nuestra expresion.
+Agregar una barra invertida antes de los caracteres a escapar indica a la expression regular debe buscar dichos caracteres literalmente.
+
+Por ejemplo en nuestra expresion `\.` define un punto `.` literal en : `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`
+Que hara coindidir nuestro ejemplo con:
+
+|  `/^([a-z0-9_\.-]+)` | `@`  | `([\da-z\.-]+)`  | `\.`  | `([a-z\.]{2,6})$/` |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|  julio.delangel | @  | gmail  | .  | com.mx  |
+
+
+## Autor
+
+Julio Cesar Del Angel
+
+github: https://github.com/JulioCesarDelAngel
+
